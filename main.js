@@ -13,7 +13,6 @@ setTimeout(() => {
 }, 3000);
 
 
-
 // =============Affichage navigation entre login et signup==========
 document.addEventListener("DOMContentLoaded", function() {
   const loginSection = document.getElementById("login-section");
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const user = users.find(u => u.email === email && u.password === password);
       if(user){
         // localStorage.setItem("currentUser", email); // facultatif
-        window.location.href = "/dashboard.html";
+        window.location.href = "dashboard.html";
        document.getElementById("login-email").value="";
       document.getElementById("login-password").value="";
       } else {
