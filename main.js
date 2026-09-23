@@ -170,8 +170,8 @@ const nom_utilisateur = JSON.parse(localStorage.getItem("admin-name-acceuil")) |
       // Gestion des clics sur les divs
       Acceuil.addEventListener("click", () => {
         showSection("section_acceuil", "Acceuil");
-        updateAcceuil();
-        updateChartAcceuil();
+        if (typeof updateAcceuil === "function") updateAcceuil();
+        if (typeof updateChartAcceuil === "function") updateChartAcceuil();
         aside_bar.classList.add("hidden")
       });
       ventes.addEventListener("click", () => {
@@ -348,8 +348,9 @@ document.getElementsByClassName("heure_notification").textContent = maintenant.t
 heureNotification();
 
 ///////////////////gestion de vente produit////////////////////////////
-// Panier
+// Panier et ticket courant
 let panier = [];
+let dernierTicket = null;
 
 // Ajouter un produit au panier
 function ajouterAuPanier(nomProduit) {
@@ -376,6 +377,7 @@ function ajouterAuPanier(nomProduit) {
 function afficherPanier() {
   const panierDiv = document.getElementById("panier");
   const totalSpan = document.getElementById("total");
+  if (!panierDiv || !totalSpan) return;
   panierDiv.innerHTML = "";
   let total = 0;
 
@@ -400,7 +402,7 @@ function retirerDuPanier(index) {
 }
 //annuler produit precedent
 function annuler_prec(){
-  panier.splice(panier.length - 1, 1);
+  if (panier.length > 0) panier.splice(panier.length - 1, 1);
   afficherPanier()
 }
 
@@ -416,7 +418,8 @@ document.getElementById("valider_vente").onclick = function() {
     alert("Le panier est vide !");
     return;
   }
-  // Mettre à jour le stock
+  const articlesVendus = panier.map(item => ({ ...item }));
+  // Vérifier puis mettre à jour le stock
   let stock = JSON.parse(localStorage.getItem("stock")) || [];
   let venteImpossible = false;
   let totalVente = 0;
@@ -439,17 +442,22 @@ document.getElementById("valider_vente").onclick = function() {
   }
 
   localStorage.setItem("stock", JSON.stringify(stock));
+  dernierTicket = {
+    date: new Date().toISOString(),
+    articles: articlesVendus,
+    montant: totalVente
+  };
   // Enregistre la vente du jour
   const ventes = JSON.parse(localStorage.getItem("ventes")) || [];
-  ventes.push({ date: new Date().toISOString().slice(0, 10), montant: totalVente });
+  ventes.push({ ...dernierTicket });
   localStorage.setItem("ventes", JSON.stringify(ventes));
 
   panier = [];
   afficherPanier();
   afficherStock();
-  updateAcceuil(); // <-- Mets à jour la section acceuil
-  alert("Vente validée !");
-  document.getElementById("ticket2").classList.remove("hidden")
+  if (typeof updateAcceuil === "function") updateAcceuil();
+  genererTicket(dernierTicket);
+  alert("Vente validée ! Le ticket est prêt à imprimer.");
 }
 
 
@@ -590,12 +598,6 @@ document.getElementById("confirmer_modification").addEventListener("click", () =
 // }
 
   const contenu_ticket = document.getElementById("contenu-ticket");
-  const total_ticket = document.getElementById("total-ticket");
-  const date_ticket = document.getElementById("date-ticket");
-
-  panier.find(p=>{
-    contenu_ticket.textContent=p.nom
-  })
 //==========================changer theme=============================
 function afficherHistoriqueVentes(filtre = "") {
   const table = document.getElementById("table_historique");
@@ -603,22 +605,26 @@ function afficherHistoriqueVentes(filtre = "") {
   let ventes = JSON.parse(localStorage.getItem("ventes")) || [];
   // Filtrer si recherche
   if (filtre.trim() !== "") {
-    ventes = ventes.filter(v =>
-      v.produit.toLowerCase().includes(filtre.toLowerCase()) ||
-      v.date.toLowerCase().includes(filtre.toLowerCase())
-    );
+    const recherche = filtre.toLowerCase();
+    ventes = ventes.filter(v => {
+      const produits = (v.articles || []).map(article => article.nom).join(" ");
+      return `${produits} ${v.produit || ""} ${v.date || ""}`.toLowerCase().includes(recherche);
+    });
   }
   table.innerHTML = "";
   ventes.forEach(v => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="py-2 px-4">${v.date}</td>
-      <td class="py-2 px-4">${v.produit}</td>
-      <td class="py-2 px-4">${v.quantite}</td>
-      <td class="py-2 px-4">${v.prix_total} FC</td>
-      <td class="py-2 px-4">${v.vendu_par || ""}</td>
-    `;
-    table.appendChild(tr);
+    const articles = v.articles || [{ nom: v.produit || "Vente", quantite: v.quantite || 1, prix: v.prix_total || v.montant || 0 }];
+    articles.forEach(article => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="py-2 px-4">${new Date(v.date).toLocaleString("fr-FR")}</td>
+        <td class="py-2 px-4">${article.nom}</td>
+        <td class="py-2 px-4">${article.quantite}</td>
+        <td class="py-2 px-4">${article.prix * article.quantite} FC</td>
+        <td class="py-2 px-4">${v.vendu_par || ""}</td>
+      `;
+      table.appendChild(tr);
+    });
   });
 }
 document.addEventListener("DOMContentLoaded", function() {
@@ -634,20 +640,19 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Générer le contenu du ticket
-function genererTicket() {
+function genererTicket(vente = dernierTicket || { articles: panier, montant: panier.reduce((total, item) => total + item.prix * item.quantite, 0), date: new Date().toISOString() }) {
   const ticketDiv = document.getElementById("contenu-ticket");
   const totalDiv = document.getElementById("total-ticket");
   const dateDiv = document.getElementById("date-ticket");
+  const ticket = document.getElementById("ticket");
+  if (!ticketDiv || !totalDiv || !dateDiv || !ticket) return;
   ticketDiv.innerHTML = "";
-  let total = 0;
-
-  panier.forEach(item => {
+  vente.articles.forEach(item => {
     ticketDiv.innerHTML += `<div>${item.nom} x${item.quantite} - ${item.prix * item.quantite} FC</div>`;
-    total += item.prix * item.quantite;
   });
-
-  totalDiv.textContent = total + " FC";
-  dateDiv.textContent = new Date().toLocaleString();
+  totalDiv.textContent = vente.montant + " FC";
+  dateDiv.textContent = new Date(vente.date).toLocaleString("fr-FR");
+  ticket.classList.remove("hidden");
 }
 
 // Afficher le ticket quand on clique sur le bouton "ticket"
@@ -655,7 +660,6 @@ const btnTicket = document.getElementById("btn_ticket");
 if (btnTicket) {
   btnTicket.addEventListener("click", function() {
     genererTicket();
-    document.getElementById("ticket").classList.remove("hidden");
   });
 }
 
@@ -664,9 +668,18 @@ const btnImprimer = document.getElementById("btn_imprimer_ticket");
 if (btnImprimer) {
   btnImprimer.addEventListener("click", function() {
     genererTicket();
-    const ticketContent = document.getElementById("ticket").innerHTML;
+    const ticketElement = document.getElementById("ticket");
+    if (!ticketElement) return;
+    const ticketCopie = ticketElement.cloneNode(true);
+    ticketCopie.querySelector("#btn_imprimer_ticket")?.remove();
+    const ticketContent = ticketCopie.innerHTML;
     const win = window.open("", "", "width=400,height=600");
+    if (!win) {
+      alert("Autorisez les fenêtres pop-up pour imprimer le ticket.");
+      return;
+    }
     win.document.write("<html><body>" + ticketContent + "</body></html>");
+    win.document.close();
     win.print();
     win.close();
   });

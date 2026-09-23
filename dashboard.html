@@ -94,7 +94,7 @@
         </section>
         <!-- //////////////////////////section produits/////////////////////////// -->
          <!-- ...existing code... -->
-<section id="section_produits" class="section w-full sm:w-[82%] sm:h-screen fixed sm:left-[17.8%] sm:top-17 p-5 gap-4 hidden flex flex-col sm:flex-row bg-gradient-to-br from-blue-50 via-white to-blue-100 overflow-y-auto h-screen">
+<section id="section_produits" class="section w-full sm:w-[82%] sm:h-screen fixed sm:left-[17.8%] sm:top-17 p-5 gap-4 hidden flex-col sm:flex-row bg-gradient-to-br from-blue-50 via-white to-blue-100 overflow-y-auto h-screen">
 <!-- ...existing code... -->
     <!-- Recherche et liste des produits -->
     <div class="w-full sm:w-[30%] h-auto sm:h-screen text-black bg-white rounded-xl shadow-lg p-4 mb-6 sm:mb-0 flex flex-col sm:mt-0 mt-15">
@@ -159,7 +159,7 @@
     </div>
 </section>
          <!-- ///////////////////////////section stock //////////////////////// -->
-    <section id="section_stock" class="section pt-15 w-full sm:w-[82%] min-h-screen sm:h-screen text-black fixed flex flex-col overflow-y-auto items-center sm:left-[17.8%] sm:top-17 top-6 p-5 gap-6 bg-gradient-to-br from-blue-50 via-white to-blue-100 rounded-xl shadow-lg hidden">
+    <section id="section_stock" class="section pt-15 w-full sm:w-[82%] min-h-screen sm:h-screen text-black fixed flex-col overflow-y-auto items-center sm:left-[17.8%] sm:top-17 top-6 p-5 gap-6 bg-gradient-to-br from-blue-50 via-white to-blue-100 rounded-xl shadow-lg hidden">
     <div class="flex flex-col sm:flex-row gap-3 w-full justify-end items-center mb-4">
         <h1 class="mt-2 font-bold text-blue-600 text-lg">Valeur du stock en USD</h1>
         <p id="valeur_stock" class="w-32 h-10 bg-white font-bold p-2 text-center rounded-lg shadow border border-blue-200 text-blue-500"></p>
@@ -214,7 +214,7 @@
     </div>
 </section>          
              <!-- ////////////////////////////////////////section ventes///////////////////////////////// -->
-               <section id="section_ventes" class="section  w-full sm:w-[82%] min-h-screen h-auto absolute text-black sm:fixed gap-6 sm:left-[17.8%] sm:top-17 top-10 p-4 flex flex-col sm:flex-row items-start justify-between bg-gradient-to-br from-blue-100 via-white to-blue-200 overflow-x-hidden overflow-y-auto transition-all duration-300 hidden">
+               <section id="section_ventes" class="section  w-full sm:w-[82%] min-h-screen h-auto absolute text-black sm:fixed gap-6 sm:left-[17.8%] sm:top-17 top-10 p-4 flex-col sm:flex-row items-start justify-between bg-gradient-to-br from-blue-100 via-white to-blue-200 overflow-x-hidden overflow-y-auto transition-all duration-300 hidden">
     <!-- Partie produits -->
     <div class="w-full sm:w-[65%] sm:h-[85vh] h-auto bg-white rounded-xl shadow-lg p-4 sm:p-8 flex flex-col mb-4 sm:mb-0">
         <div class="flex items-center mb-4 sm:mb-6">
@@ -227,24 +227,8 @@
             <!-- affichage produits -->
         </div>
     </div>
-    <!-- Partie droite : calculatrice, panier, bouttons -->
+    <!-- Partie droite : panier et ticket -->
     <div class="sm:w-[32%] h-[80vh] flex sm:flex-col  gap-6 overflow-y-scroll">
-        <!-- Calculatrice -->
-        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 relative mb-2">
-            <h2 class="font-bold text-xl text-blue-500 mb-2 sm:mb-4 text-center">Calculatrice</h2>
-            <div class="grid grid-cols-3 gap-2 sm:gap-4">
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">1</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">2</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">3</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">4</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">5</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">6</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">7</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">8</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition">9</button>
-                <button class="bg-blue-400 text-white font-bold py-2 sm:py-3 rounded-xl text-xl hover:bg-blue-500 transition col-span-3">0</button>
-            </div>
-        </div>
         <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 flex flex-col gap-4 h-auto sm:h-[70vh]">
             <div class="flex items-center justify-center gap-2 mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-blue-400">
@@ -259,7 +243,7 @@
             </div>
             <button id="valider_vente" class="bg-blue-400 w-full py-2 rounded-xl text-white font-bold text-lg hover:bg-blue-500 transition">Valider la vente</button>
             <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2">
-                <div onclick="imprimerTicket()" class="h-[8vh] bg-white rounded-xl shadow-lg flex-1 flex flex-col items-center justify-center py-2 cursor-pointer hover:bg-blue-50 transition">
+                <div id="btn_ticket" onclick="imprimerTicket()" class="h-[8vh] bg-white rounded-xl shadow-lg flex-1 flex flex-col items-center justify-center py-2 cursor-pointer hover:bg-blue-50 transition">
                     <h1 class="text-2xl">🖨</h1>
                     <h1 class="font-bold text-xs">Ticket</h1>
                 </div>
@@ -325,7 +309,7 @@
     </div>
 </section>
              <!-- //////////////////////////////////////////section parametre/////////////////////////////// -->
-    <section id="section_parametre" class="w-full sm:w-[25%] max-w-md bg-white h-auto sm:h-[50vh] text-black text-xl fixed flex flex-col items-center sm:items-end left-0 sm:left-4 bottom-0 p-5 gap-4 z-50 rounded-t-2xl sm:rounded-xl shadow-2xl transition-all duration-300 hidden"
+    <section id="section_parametre" class="w-full sm:w-[25%] max-w-md bg-white h-auto sm:h-[50vh] text-black text-xl fixed flex-col items-center sm:items-end left-0 sm:left-4 bottom-0 p-5 gap-4 z-50 rounded-t-2xl sm:rounded-xl shadow-2xl transition-all duration-300 hidden"
     style="box-shadow: 2px 3px 12px rgba(0,0,0,0.12);">
     <svg id="retu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="w-8 h-8 absolute right-5 top-5 cursor-pointer text-blue-500 hover:text-blue-700 transition">
@@ -339,7 +323,7 @@
         <div id="deconnexion2" class="hidden sm:blockbg-blue-100 hover:bg-blue-200 transition px-5 py-3 rounded-lg text-left font-semibold cursor-pointer shadow-sm">Se déconnecter</div>
     </div>
 </section>
-             <section id="modifier_password" class="w-full sm:w-[25%] max-w-md bg-white h-auto sm:h-[50vh] text-black text-xl fixed flex flex-col items-center sm:items-end left-0 sm:left-4 bottom-0 p-5 gap-4 z-50 rounded-t-2xl sm:rounded-xl shadow-2xl transition-all duration-300 hidden"
+             <section id="modifier_password" class="w-full sm:w-[25%] max-w-md bg-white h-auto sm:h-[50vh] text-black text-xl fixed flex-col items-center sm:items-end left-0 sm:left-4 bottom-0 p-5 gap-4 z-50 rounded-t-2xl sm:rounded-xl shadow-2xl transition-all duration-300 hidden"
     style="box-shadow: 2px 3px 12px rgba(0,0,0,0.12);">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="svg_retoure w-8 h-8 absolute right-5 top-5 cursor-pointer text-blue-500 hover:text-blue-700 transition">
@@ -353,7 +337,7 @@
     </div>
 </section>
 
-             <section id="section_apropos" class="w-full sm:w-[25%] max-w-md bg-white h-auto sm:h-[50vh] text-black text-xl fixed flex flex-col items-center sm:items-end left-0 sm:left-4 bottom-0 p-5 gap-4 z-50 rounded-t-2xl sm:rounded-xl shadow-2xl transition-all duration-300 hidden"
+             <section id="section_apropos" class="w-full sm:w-[25%] max-w-md bg-white h-auto sm:h-[50vh] text-black text-xl fixed flex-col items-center sm:items-end left-0 sm:left-4 bottom-0 p-5 gap-4 z-50 rounded-t-2xl sm:rounded-xl shadow-2xl transition-all duration-300 hidden"
     style="box-shadow: 2px 3px 12px rgba(0,0,0,0.12);">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="svg_retoure w-8 h-8 absolute right-5 top-5 cursor-pointer text-blue-500 hover:text-blue-700 transition">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
