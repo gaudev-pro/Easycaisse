@@ -59,6 +59,62 @@
     gap: 2px;
     
 }
+
+.page-authentification {
+  align-items: center;
+  background: #152d35;
+  color: #f6fbfa;
+  display: flex;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 2rem 1rem;
+  position: relative;
+}
+.fond-authentification {
+  background: linear-gradient(125deg, rgba(19, 74, 87, .95), rgba(239, 131, 84, .4)), url("../photos/téléchargement (5).jpeg") center/cover;
+  inset: 0;
+  opacity: .75;
+  position: absolute;
+}
+.fond-authentification::after {
+  background: rgba(8, 24, 29, .48);
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+.carte-authentification {
+  backdrop-filter: blur(16px);
+  background: rgba(250, 253, 252, .97);
+  border: 1px solid rgba(255, 255, 255, .7);
+  border-radius: 24px;
+  box-shadow: 0 28px 70px rgba(5, 25, 30, .3);
+  color: #17252a;
+  max-width: 450px;
+  padding: 2.4rem clamp(1.4rem, 5vw, 3.2rem);
+  position: relative;
+  width: min(100%, 450px);
+  z-index: 1;
+}
+.entete-authentification { text-align: center; }
+.marque-authentification { align-items: center; background: #e8f3f5; border-radius: 18px; display: flex; height: 68px; justify-content: center; margin: 0 auto 1rem; width: 68px; }
+.marque-authentification img { border-radius: 13px; height: 54px; object-fit: cover; width: 54px; }
+.surtitre-authentification { color: #176b87; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.entete-authentification h1 { font-size: clamp(1.65rem, 5vw, 2.15rem); font-weight: 800; margin: .45rem 0 .3rem; }
+.entete-authentification p { color: #6c7b7f; font-size: .92rem; line-height: 1.5; }
+.formulaire-authentification { display: grid; gap: 1rem; margin-top: 1.8rem; }
+.champ-authentification { display: grid; gap: .4rem; }
+.champ-authentification label { color: #34484e; font-size: .82rem; font-weight: 700; }
+.champ-authentification input { background: #f4f8f7; border: 1px solid #d8e4e3; border-radius: 10px; color: #17252a; padding: .82rem .9rem; width: 100%; }
+.champ-authentification input:focus { background: #fff; border-color: #176b87; box-shadow: 0 0 0 4px rgba(23, 107, 135, .12); outline: 0; }
+.bouton-authentification { background: #176b87; border: 0; border-radius: 10px; color: #fff; cursor: pointer; font-size: .98rem; font-weight: 800; margin-top: .35rem; padding: .9rem 1rem; }
+.bouton-authentification:hover { background: #11566d; transform: translateY(-1px); }
+.retour-authentification { color: #74858a; font-size: .85rem; text-align: center; }
+.retour-authentification button { background: none; border: 0; color: #ef8354; cursor: pointer; font-weight: 800; padding: 0; }
+.message-authentification { background: #fff0ed; border-left: 4px solid #ef8354; border-radius: 8px; color: #a44831; font-size: .85rem; margin-top: 1.2rem; padding: .7rem .8rem; text-align: center; }
+.signup-section:not(.hidden) { display: flex; flex-direction: column; }
+@media (max-width: 480px) { .page-authentification { padding: 1rem; } .carte-authentification { border-radius: 18px; padding: 1.8rem 1.25rem; } }
 /* // =================== Navigation entre login et signup ===================
 document.addEventListener("DOMContentLoaded", function() {
   // Sections et boutons

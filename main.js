@@ -453,11 +453,11 @@ document.getElementById("valider_vente").onclick = function() {
   document.getElementById("ticket2").classList.remove("hidden")
 }
 
-// Pour que les fonctions soient accessibles depuis le HTML
+
 window.ajouterAuPanier = ajouterAuPanier;
 window.retirerDuPanier = retirerDuPanier;
 
-// Afficher le panier au chargement
+
 afficherPanier();
 
 ///////////////////////parametre/////////////////////////////
